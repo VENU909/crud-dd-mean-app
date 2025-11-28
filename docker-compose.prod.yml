@@ -1,6 +1,6 @@
 services:
   backend:
-    image: "${DOCKERHUB_USERNAME}/crud-dd-backend:latest"
+    image: "venu0/crud-dd-backend:latest"
     container_name: crud-dd-backend
     restart: always
     ports:
@@ -9,7 +9,7 @@ services:
       - mongo
 
   frontend:
-    image: "${DOCKERHUB_USERNAME}/crud-dd-frontend:latest"
+    image: "venu0/crud-dd-frontend:latest"
     container_name: crud-dd-frontend
     restart: always
     ports:
