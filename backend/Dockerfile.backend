@@ -13,5 +13,8 @@ RUN npm install --only=production
 # Copy ALL backend source code
 COPY . .
 
+ENV MONGO_URI=mongodb://mongo:27017/crud
+
+
 EXPOSE 3000
 CMD ["node", "server.js"]
