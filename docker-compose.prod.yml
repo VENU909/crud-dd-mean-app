@@ -1,37 +1,40 @@
-services:
-  backend:
-    image: "venu0/crud-dd-backend:latest"
-    container_name: crud-dd-backend
-    restart: always
-    ports:
-      - "3000:3000"
-    depends_on:
-      - mongo
+backend:
+  image: "venu0/crud-dd-backend:latest"
+  container_name: crud-dd-backend
+  restart: always
+  ports:
+    - "3000:3000"
+  depends_on:
+    - mongo
 
-  frontend:
-    image: "venu0/crud-dd-frontend:latest"
-    container_name: crud-dd-frontend
-    restart: always
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
+frontend:
+  image: "venu0/crud-dd-frontend:latest"
+  container_name: crud-dd-frontend
+  restart: always
+  expose:
+    - "80"   # frontend listens internally but NOT exposed to host
+  depends_on:
+    - backend
 
-  mongo:
-    image: mongo
-    restart: always
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
+mongo:
+  image: mongo
+  restart: always
+  ports:
+    - "27017:27017"
+  volumes:
+    - mongo-data:/data/db
 
-  nginx:
-    image: nginx
-    restart: always
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+nginx:
+  image: nginx
+  container_name: crud-dd-nginx
+  restart: always
+  ports:
+    - "80:80"
+  depends_on:
+    - frontend
+    - backend
+  volumes:
+    - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
 volumes:
   mongo-data:
