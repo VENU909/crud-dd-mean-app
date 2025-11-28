@@ -1,57 +1,37 @@
-version: "3.8"
-
 services:
-
-  mongo:
-    image: mongo:6
-    container_name: cruddd_mongo
-    restart: unless-stopped
-    volumes:
-      - mongo_data:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: mongo_user
-      MONGO_INITDB_ROOT_PASSWORD: mongo_pass
-    networks:
-      - webnet
-
   backend:
-    image:  "${DOCKERHUB_USERNAME}/crud-dd-backend:latest"
-    container_name: cruddd_backend
-    restart: unless-stopped
+    image: "${DOCKERHUB_USERNAME}/crud-dd-backend:latest"
+    container_name: crud-dd-backend
+    restart: always
+    ports:
+      - "3000:3000"
     depends_on:
       - mongo
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/crud_dd_db
-      - PORT=3000
-    networks:
-      - webnet
 
   frontend:
     image: "${DOCKERHUB_USERNAME}/crud-dd-frontend:latest"
-    container_name: cruddd_frontend
-    restart: unless-stopped
-    depends_on:
-      - backend
-    networks:
-      - webnet
-
-  nginx:
-    image: nginx:stable-alpine
-    container_name: cruddd_nginx
-    restart: unless-stopped
-    depends_on:
-      - frontend
-      - backend
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    container_name: crud-dd-frontend
+    restart: always
     ports:
       - "80:80"
-    networks:
-      - webnet
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  nginx:
+    image: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
 
 volumes:
-  mongo_data:
-
-networks:
-  webnet:
-    driver: bridge
+  mongo-data:
