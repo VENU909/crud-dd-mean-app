@@ -55,6 +55,7 @@ jobs:
           cd ~/crud-dd-mean-app
           git fetch --all
           git reset --hard origin/main
-          docker-compose -f docker-compose.prod.yml pull
-          docker-compose -f docker-compose.prod.yml up -d
+          docker compose -f docker-compose.prod.yml pull
+          docker compose -f docker-compose.prod.yml up -d
           docker image prune -f
+
