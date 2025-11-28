@@ -23,16 +23,16 @@ jobs:
       - name: Build & push backend image
         uses: docker/build-push-action@v4
         with:
-          context: /backend
-          file: /backend/Dockerfile.backend
+          context: ./backend
+          file: ./backend/Dockerfile.backend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/crud-dd-backend:latest
 
       - name: Build & push frontend image
         uses: docker/build-push-action@v4
         with:
-          context: /frontend
-          file: /frontend/Dockerfile.frontend
+          context: ./frontend
+          file: ./frontend/Dockerfile.frontend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/crud-dd-frontend:latest
 
