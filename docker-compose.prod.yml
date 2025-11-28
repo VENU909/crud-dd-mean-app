@@ -15,7 +15,7 @@ services:
       - webnet
 
   backend:
-    image:  ${{ secrets.DOCKERHUB_USERNAME }}/crud-dd-backend:latest
+    image:  "${DOCKERHUB_USERNAME}/crud-dd-backend:latest"
     container_name: cruddd_backend
     restart: unless-stopped
     depends_on:
@@ -27,7 +27,7 @@ services:
       - webnet
 
   frontend:
-    image: ${{ secrets.DOCKERHUB_USERNAME }}/crud-dd-frontend:latest
+    image: "${DOCKERHUB_USERNAME}/crud-dd-frontend:latest"
     container_name: cruddd_frontend
     restart: unless-stopped
     depends_on:
